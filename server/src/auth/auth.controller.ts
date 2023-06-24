@@ -12,4 +12,9 @@ export class AuthController {
   async login(@Body() body: Credentials): Promise<UserInfo> {
     return this.authService.login(body);
   }
+
+  @Post("signup")
+  async signup(@Body() body: Credentials): Promise<UserInfo> {
+    return this.authService.signup(body);
+}
 }
