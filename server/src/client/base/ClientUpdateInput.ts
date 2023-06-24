@@ -11,7 +11,16 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsOptional, IsInt, IsString } from "class-validator";
+import {
+  IsBoolean,
+  IsOptional,
+  IsNumber,
+  IsInt,
+  ValidateNested,
+  IsString,
+} from "class-validator";
+import { BusinessWhereUniqueInput } from "../../business/base/BusinessWhereUniqueInput";
+import { Type } from "class-transformer";
 
 @InputType()
 class ClientUpdateInput {
@@ -30,12 +39,35 @@ class ClientUpdateInput {
     required: false,
     type: Number,
   })
+  @IsNumber()
+  @IsOptional()
+  @Field(() => Number, {
+    nullable: true,
+  })
+  balance?: number;
+
+  @ApiProperty({
+    required: false,
+    type: Number,
+  })
   @IsInt()
   @IsOptional()
   @Field(() => Number, {
     nullable: true,
   })
   bn?: number;
+
+  @ApiProperty({
+    required: false,
+    type: () => BusinessWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => BusinessWhereUniqueInput)
+  @IsOptional()
+  @Field(() => BusinessWhereUniqueInput, {
+    nullable: true,
+  })
+  business?: BusinessWhereUniqueInput | null;
 
   @ApiProperty({
     required: false,

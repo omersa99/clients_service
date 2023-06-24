@@ -20,6 +20,7 @@ const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
   active: "true",
+  balance: 42.42,
   bn: 42,
   createdAt: new Date(),
   fullName: "exampleFullName",
@@ -28,6 +29,7 @@ const CREATE_INPUT = {
 };
 const CREATE_RESULT = {
   active: "true",
+  balance: 42.42,
   bn: 42,
   createdAt: new Date(),
   fullName: "exampleFullName",
@@ -37,6 +39,7 @@ const CREATE_RESULT = {
 const FIND_MANY_RESULT = [
   {
     active: "true",
+    balance: 42.42,
     bn: 42,
     createdAt: new Date(),
     fullName: "exampleFullName",
@@ -46,6 +49,7 @@ const FIND_MANY_RESULT = [
 ];
 const FIND_ONE_RESULT = {
   active: "true",
+  balance: 42.42,
   bn: 42,
   createdAt: new Date(),
   fullName: "exampleFullName",

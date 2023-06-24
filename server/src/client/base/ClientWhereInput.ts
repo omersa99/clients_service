@@ -11,13 +11,26 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IntFilter } from "../../util/IntFilter";
+import { FloatFilter } from "../../util/FloatFilter";
 import { Type } from "class-transformer";
-import { IsOptional } from "class-validator";
+import { IsOptional, ValidateNested } from "class-validator";
+import { IntFilter } from "../../util/IntFilter";
+import { BusinessWhereUniqueInput } from "../../business/base/BusinessWhereUniqueInput";
 import { StringFilter } from "../../util/StringFilter";
 
 @InputType()
 class ClientWhereInput {
+  @ApiProperty({
+    required: false,
+    type: FloatFilter,
+  })
+  @Type(() => FloatFilter)
+  @IsOptional()
+  @Field(() => FloatFilter, {
+    nullable: true,
+  })
+  balance?: FloatFilter;
+
   @ApiProperty({
     required: false,
     type: IntFilter,
@@ -28,6 +41,18 @@ class ClientWhereInput {
     nullable: true,
   })
   bn?: IntFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => BusinessWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => BusinessWhereUniqueInput)
+  @IsOptional()
+  @Field(() => BusinessWhereUniqueInput, {
+    nullable: true,
+  })
+  business?: BusinessWhereUniqueInput;
 
   @ApiProperty({
     required: false,
