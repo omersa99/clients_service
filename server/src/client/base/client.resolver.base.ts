@@ -26,6 +26,7 @@ import { ClientCountArgs } from "./ClientCountArgs";
 import { ClientFindManyArgs } from "./ClientFindManyArgs";
 import { ClientFindUniqueArgs } from "./ClientFindUniqueArgs";
 import { Client } from "./Client";
+import { Business } from "../../business/base/Business";
 import { ClientService } from "../client.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => Client)
@@ -88,7 +89,15 @@ export class ClientResolverBase {
   async createClient(@graphql.Args() args: CreateClientArgs): Promise<Client> {
     return await this.service.create({
       ...args,
-      data: args.data,
+      data: {
+        ...args.data,
+
+        business: args.data.business
+          ? {
+              connect: args.data.business,
+            }
+          : undefined,
+      },
     });
   }
 
@@ -105,7 +114,15 @@ export class ClientResolverBase {
     try {
       return await this.service.update({
         ...args,
-        data: args.data,
+        data: {
+          ...args.data,
+
+          business: args.data.business
+            ? {
+                connect: args.data.business,
+              }
+            : undefined,
+        },
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
@@ -136,5 +153,26 @@ export class ClientResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => Business, {
+    nullable: true,
+    name: "business",
+  })
+  @nestAccessControl.UseRoles({
+    resource: "Business",
+    action: "read",
+    possession: "any",
+  })
+  async resolveFieldBusiness(
+    @graphql.Parent() parent: Client
+  ): Promise<Business | null> {
+    const result = await this.service.getBusiness(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

@@ -14,10 +14,13 @@ import { ApiProperty } from "@nestjs/swagger";
 import {
   IsBoolean,
   IsOptional,
+  IsNumber,
   IsInt,
+  ValidateNested,
   IsDate,
   IsString,
 } from "class-validator";
+import { Business } from "../../business/base/Business";
 import { Type } from "class-transformer";
 
 @ObjectType()
@@ -37,9 +40,26 @@ class Client {
     required: true,
     type: Number,
   })
+  @IsNumber()
+  @Field(() => Number)
+  balance!: number;
+
+  @ApiProperty({
+    required: true,
+    type: Number,
+  })
   @IsInt()
   @Field(() => Number)
   bn!: number;
+
+  @ApiProperty({
+    required: false,
+    type: () => Business,
+  })
+  @ValidateNested()
+  @Type(() => Business)
+  @IsOptional()
+  business?: Business | null;
 
   @ApiProperty({
     required: true,

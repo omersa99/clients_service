@@ -1,6 +1,6 @@
 {
-  "short_name": "Clients service",
-  "name": "Clients service",
+  "short_name": "system service",
+  "name": "system service",
   "icons": [
     {
       "src": "favicon.ico",

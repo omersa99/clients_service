@@ -48,10 +48,26 @@ export class ClientControllerBase {
   })
   async create(@common.Body() data: ClientCreateInput): Promise<Client> {
     return await this.service.create({
-      data: data,
+      data: {
+        ...data,
+
+        business: data.business
+          ? {
+              connect: data.business,
+            }
+          : undefined,
+      },
       select: {
         active: true,
+        balance: true,
         bn: true,
+
+        business: {
+          select: {
+            id: true,
+          },
+        },
+
         createdAt: true,
         fullName: true,
         id: true,
@@ -78,7 +94,15 @@ export class ClientControllerBase {
       ...args,
       select: {
         active: true,
+        balance: true,
         bn: true,
+
+        business: {
+          select: {
+            id: true,
+          },
+        },
+
         createdAt: true,
         fullName: true,
         id: true,
@@ -106,7 +130,15 @@ export class ClientControllerBase {
       where: params,
       select: {
         active: true,
+        balance: true,
         bn: true,
+
+        business: {
+          select: {
+            id: true,
+          },
+        },
+
         createdAt: true,
         fullName: true,
         id: true,
@@ -140,10 +172,26 @@ export class ClientControllerBase {
     try {
       return await this.service.update({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          business: data.business
+            ? {
+                connect: data.business,
+              }
+            : undefined,
+        },
         select: {
           active: true,
+          balance: true,
           bn: true,
+
+          business: {
+            select: {
+              id: true,
+            },
+          },
+
           createdAt: true,
           fullName: true,
           id: true,
@@ -179,7 +227,15 @@ export class ClientControllerBase {
         where: params,
         select: {
           active: true,
+          balance: true,
           bn: true,
+
+          business: {
+            select: {
+              id: true,
+            },
+          },
+
           createdAt: true,
           fullName: true,
           id: true,
