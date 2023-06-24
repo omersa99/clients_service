@@ -2,9 +2,66 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input BooleanNullableFilter {
+  equals: Boolean
+  not: Boolean
+}
+
+type Business {
+  accountingType: EnumBusinessAccountingType
+  active: Boolean
+  address: String
+  clients(orderBy: [ClientOrderByInput!], skip: Float, take: Float, where: ClientWhereInput): [Client!]!
+  createdAt: DateTime!
+  id: String!
+  title: String
+  updatedAt: DateTime!
+}
+
+input BusinessCreateInput {
+  accountingType: EnumBusinessAccountingType
+  active: Boolean
+  address: String
+  clients: ClientCreateNestedManyWithoutBusinessesInput
+  title: String
+}
+
+input BusinessOrderByInput {
+  accountingType: SortOrder
+  active: SortOrder
+  address: SortOrder
+  createdAt: SortOrder
+  id: SortOrder
+  title: SortOrder
+  updatedAt: SortOrder
+}
+
+input BusinessUpdateInput {
+  accountingType: EnumBusinessAccountingType
+  active: Boolean
+  address: String
+  clients: ClientUpdateManyWithoutBusinessesInput
+  title: String
+}
+
+input BusinessWhereInput {
+  accountingType: EnumBusinessAccountingType
+  active: BooleanNullableFilter
+  address: StringNullableFilter
+  clients: ClientListRelationFilter
+  id: StringFilter
+  title: StringNullableFilter
+}
+
+input BusinessWhereUniqueInput {
+  id: String!
+}
+
 type Client {
   active: Boolean
+  balance: Float!
   bn: Float!
+  business: Business
   createdAt: DateTime!
   fullName: String!
   id: String!
@@ -13,13 +70,27 @@ type Client {
 
 input ClientCreateInput {
   active: Boolean
+  balance: Float!
   bn: Float!
+  business: BusinessWhereUniqueInput
   fullName: String!
+}
+
+input ClientCreateNestedManyWithoutBusinessesInput {
+  connect: [ClientWhereUniqueInput!]
+}
+
+input ClientListRelationFilter {
+  every: ClientWhereInput
+  none: ClientWhereInput
+  some: ClientWhereInput
 }
 
 input ClientOrderByInput {
   active: SortOrder
+  balance: SortOrder
   bn: SortOrder
+  businessId: SortOrder
   createdAt: SortOrder
   fullName: SortOrder
   id: SortOrder
@@ -28,12 +99,22 @@ input ClientOrderByInput {
 
 input ClientUpdateInput {
   active: Boolean
+  balance: Float
   bn: Float
+  business: BusinessWhereUniqueInput
   fullName: String
 }
 
+input ClientUpdateManyWithoutBusinessesInput {
+  connect: [ClientWhereUniqueInput!]
+  disconnect: [ClientWhereUniqueInput!]
+  set: [ClientWhereUniqueInput!]
+}
+
 input ClientWhereInput {
+  balance: FloatFilter
   bn: IntFilter
+  business: BusinessWhereUniqueInput
   fullName: StringFilter
   id: StringFilter
 }
@@ -52,6 +133,110 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Document {
+  amount: Float
+  amountBeforeVat: Float
+  createdAt: DateTime!
+  description: String
+  docType: EnumDocumentDocType
+  id: String!
+  items(orderBy: [ItemOrderByInput!], skip: Float, take: Float, where: ItemWhereInput): [Item!]!
+  status: EnumDocumentStatus
+  updatedAt: DateTime!
+  vatType: EnumDocumentVatType
+}
+
+input DocumentCreateInput {
+  amount: Float
+  amountBeforeVat: Float
+  description: String
+  docType: EnumDocumentDocType
+  items: ItemCreateNestedManyWithoutDocumentsInput
+  status: EnumDocumentStatus
+  vatType: EnumDocumentVatType
+}
+
+input DocumentOrderByInput {
+  amount: SortOrder
+  amountBeforeVat: SortOrder
+  createdAt: SortOrder
+  description: SortOrder
+  docType: SortOrder
+  id: SortOrder
+  status: SortOrder
+  updatedAt: SortOrder
+  vatType: SortOrder
+}
+
+input DocumentUpdateInput {
+  amount: Float
+  amountBeforeVat: Float
+  description: String
+  docType: EnumDocumentDocType
+  items: ItemUpdateManyWithoutDocumentsInput
+  status: EnumDocumentStatus
+  vatType: EnumDocumentVatType
+}
+
+input DocumentWhereInput {
+  amount: FloatNullableFilter
+  amountBeforeVat: FloatNullableFilter
+  description: StringNullableFilter
+  docType: EnumDocumentDocType
+  id: StringFilter
+  items: ItemListRelationFilter
+  status: EnumDocumentStatus
+  vatType: EnumDocumentVatType
+}
+
+input DocumentWhereUniqueInput {
+  id: String!
+}
+
+enum EnumBusinessAccountingType {
+  Accumulated
+  Cash
+  Unknown
+}
+
+enum EnumDocumentDocType {
+  Invoice
+  Receipt
+}
+
+enum EnumDocumentStatus {
+  Closed
+  Open
+}
+
+enum EnumDocumentVatType {
+  Default
+  Exempt
+  Included
+}
+
+input FloatFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: Float
+  notIn: [Float!]
+}
+
+input FloatNullableFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: Float
+  notIn: [Float!]
+}
+
 input IntFilter {
   equals: Int
   gt: Int
@@ -61,6 +246,68 @@ input IntFilter {
   lte: Int
   not: Int
   notIn: [Int!]
+}
+
+type Item {
+  createdAt: DateTime!
+  description: String
+  document: Document
+  id: String!
+  name: String
+  price: Float
+  updatedAt: DateTime!
+}
+
+input ItemCreateInput {
+  description: String
+  document: DocumentWhereUniqueInput
+  name: String
+  price: Float
+}
+
+input ItemCreateNestedManyWithoutDocumentsInput {
+  connect: [ItemWhereUniqueInput!]
+}
+
+input ItemListRelationFilter {
+  every: ItemWhereInput
+  none: ItemWhereInput
+  some: ItemWhereInput
+}
+
+input ItemOrderByInput {
+  createdAt: SortOrder
+  description: SortOrder
+  documentId: SortOrder
+  id: SortOrder
+  name: SortOrder
+  price: SortOrder
+  updatedAt: SortOrder
+}
+
+input ItemUpdateInput {
+  description: String
+  document: DocumentWhereUniqueInput
+  name: String
+  price: Float
+}
+
+input ItemUpdateManyWithoutDocumentsInput {
+  connect: [ItemWhereUniqueInput!]
+  disconnect: [ItemWhereUniqueInput!]
+  set: [ItemWhereUniqueInput!]
+}
+
+input ItemWhereInput {
+  description: StringNullableFilter
+  document: DocumentWhereUniqueInput
+  id: StringFilter
+  name: StringNullableFilter
+  price: FloatNullableFilter
+}
+
+input ItemWhereUniqueInput {
+  id: String!
 }
 
 """
@@ -73,21 +320,38 @@ type MetaQueryPayload {
 }
 
 type Mutation {
+  createBusiness(data: BusinessCreateInput!): Business!
   createClient(data: ClientCreateInput!): Client!
+  createDocument(data: DocumentCreateInput!): Document!
+  createItem(data: ItemCreateInput!): Item!
   createUser(data: UserCreateInput!): User!
+  deleteBusiness(where: BusinessWhereUniqueInput!): Business!
   deleteClient(where: ClientWhereUniqueInput!): Client!
+  deleteDocument(where: DocumentWhereUniqueInput!): Document!
+  deleteItem(where: ItemWhereUniqueInput!): Item!
   deleteUser(where: UserWhereUniqueInput!): User!
   login(credentials: Credentials!): UserInfo!
-  signup(credentials: Credentials!): UserInfo!
+  updateBusiness(data: BusinessUpdateInput!, where: BusinessWhereUniqueInput!): Business!
   updateClient(data: ClientUpdateInput!, where: ClientWhereUniqueInput!): Client!
+  updateDocument(data: DocumentUpdateInput!, where: DocumentWhereUniqueInput!): Document!
+  updateItem(data: ItemUpdateInput!, where: ItemWhereUniqueInput!): Item!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
 }
 
 type Query {
+  _businessesMeta(where: BusinessWhereInput): MetaQueryPayload!
   _clientsMeta(where: ClientWhereInput): MetaQueryPayload!
+  _documentsMeta(where: DocumentWhereInput): MetaQueryPayload!
+  _itemsMeta(where: ItemWhereInput): MetaQueryPayload!
   _usersMeta(where: UserWhereInput): MetaQueryPayload!
+  business(where: BusinessWhereUniqueInput!): Business
+  businesses(orderBy: [BusinessOrderByInput!], skip: Float, take: Float, where: BusinessWhereInput): [Business!]!
   client(where: ClientWhereUniqueInput!): Client
   clients(orderBy: [ClientOrderByInput!], skip: Float, take: Float, where: ClientWhereInput): [Client!]!
+  document(where: DocumentWhereUniqueInput!): Document
+  documents(orderBy: [DocumentOrderByInput!], skip: Float, take: Float, where: DocumentWhereInput): [Document!]!
+  item(where: ItemWhereUniqueInput!): Item
+  items(orderBy: [ItemOrderByInput!], skip: Float, take: Float, where: ItemWhereInput): [Item!]!
   user(where: UserWhereUniqueInput!): User
   userInfo: UserInfo!
   users(orderBy: [UserOrderByInput!], skip: Float, take: Float, where: UserWhereInput): [User!]!
