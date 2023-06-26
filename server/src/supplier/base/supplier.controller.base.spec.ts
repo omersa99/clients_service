@@ -13,55 +13,31 @@ import { ACLModule } from "../../auth/acl.module";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { map } from "rxjs";
-import { BusinessController } from "../business.controller";
-import { BusinessService } from "../business.service";
+import { SupplierController } from "../supplier.controller";
+import { SupplierService } from "../supplier.service";
 
 const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
-  active: "true",
   createdAt: new Date(),
-  deductionId: "exampleDeductionId",
-  deductionRate: "exampleDeductionRate",
-  exemption: "true",
   id: "exampleId",
-  taxId: 42,
-  title: "exampleTitle",
   updatedAt: new Date(),
 };
 const CREATE_RESULT = {
-  active: "true",
   createdAt: new Date(),
-  deductionId: "exampleDeductionId",
-  deductionRate: "exampleDeductionRate",
-  exemption: "true",
   id: "exampleId",
-  taxId: 42,
-  title: "exampleTitle",
   updatedAt: new Date(),
 };
 const FIND_MANY_RESULT = [
   {
-    active: "true",
     createdAt: new Date(),
-    deductionId: "exampleDeductionId",
-    deductionRate: "exampleDeductionRate",
-    exemption: "true",
     id: "exampleId",
-    taxId: 42,
-    title: "exampleTitle",
     updatedAt: new Date(),
   },
 ];
 const FIND_ONE_RESULT = {
-  active: "true",
   createdAt: new Date(),
-  deductionId: "exampleDeductionId",
-  deductionRate: "exampleDeductionRate",
-  exemption: "true",
   id: "exampleId",
-  taxId: 42,
-  title: "exampleTitle",
   updatedAt: new Date(),
 };
 
@@ -112,18 +88,18 @@ const aclValidateRequestInterceptor = {
   },
 };
 
-describe("Business", () => {
+describe("Supplier", () => {
   let app: INestApplication;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         {
-          provide: BusinessService,
+          provide: SupplierService,
           useValue: service,
         },
       ],
-      controllers: [BusinessController],
+      controllers: [SupplierController],
       imports: [MorganModule.forRoot(), ACLModule],
     })
       .overrideGuard(DefaultAuthGuard)
@@ -140,9 +116,9 @@ describe("Business", () => {
     await app.init();
   });
 
-  test("POST /businesses", async () => {
+  test("POST /suppliers", async () => {
     await request(app.getHttpServer())
-      .post("/businesses")
+      .post("/suppliers")
       .send(CREATE_INPUT)
       .expect(HttpStatus.CREATED)
       .expect({
@@ -152,9 +128,9 @@ describe("Business", () => {
       });
   });
 
-  test("GET /businesses", async () => {
+  test("GET /suppliers", async () => {
     await request(app.getHttpServer())
-      .get("/businesses")
+      .get("/suppliers")
       .expect(HttpStatus.OK)
       .expect([
         {
@@ -165,9 +141,9 @@ describe("Business", () => {
       ]);
   });
 
-  test("GET /businesses/:id non existing", async () => {
+  test("GET /suppliers/:id non existing", async () => {
     await request(app.getHttpServer())
-      .get(`${"/businesses"}/${nonExistingId}`)
+      .get(`${"/suppliers"}/${nonExistingId}`)
       .expect(HttpStatus.NOT_FOUND)
       .expect({
         statusCode: HttpStatus.NOT_FOUND,
@@ -176,9 +152,9 @@ describe("Business", () => {
       });
   });
 
-  test("GET /businesses/:id existing", async () => {
+  test("GET /suppliers/:id existing", async () => {
     await request(app.getHttpServer())
-      .get(`${"/businesses"}/${existingId}`)
+      .get(`${"/suppliers"}/${existingId}`)
       .expect(HttpStatus.OK)
       .expect({
         ...FIND_ONE_RESULT,
@@ -187,10 +163,10 @@ describe("Business", () => {
       });
   });
 
-  test("POST /businesses existing resource", async () => {
+  test("POST /suppliers existing resource", async () => {
     let agent = request(app.getHttpServer());
     await agent
-      .post("/businesses")
+      .post("/suppliers")
       .send(CREATE_INPUT)
       .expect(HttpStatus.CREATED)
       .expect({
@@ -200,7 +176,7 @@ describe("Business", () => {
       })
       .then(function () {
         agent
-          .post("/businesses")
+          .post("/suppliers")
           .send(CREATE_INPUT)
           .expect(HttpStatus.CONFLICT)
           .expect({

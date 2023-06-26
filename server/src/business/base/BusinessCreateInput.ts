@@ -16,9 +16,14 @@ import {
   IsEnum,
   IsOptional,
   IsBoolean,
-  IsString,
   ValidateNested,
+  IsString,
+  IsInt,
 } from "class-validator";
+import { IsJSONValue } from "@app/custom-validators";
+import { GraphQLJSON } from "graphql-type-json";
+import { InputJsonValue } from "../../types";
+import { EnumBusinessBusinessType } from "./EnumBusinessBusinessType";
 import { ClientCreateNestedManyWithoutBusinessesInput } from "./ClientCreateNestedManyWithoutBusinessesInput";
 import { Type } from "class-transformer";
 
@@ -48,14 +53,24 @@ class BusinessCreateInput {
 
   @ApiProperty({
     required: false,
-    type: String,
   })
-  @IsString()
+  @IsJSONValue()
   @IsOptional()
-  @Field(() => String, {
+  @Field(() => GraphQLJSON, {
     nullable: true,
   })
-  address?: string | null;
+  address?: InputJsonValue;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumBusinessBusinessType,
+  })
+  @IsEnum(EnumBusinessBusinessType)
+  @IsOptional()
+  @Field(() => EnumBusinessBusinessType, {
+    nullable: true,
+  })
+  businessType?: "OsekMurshe" | "LtdCompany" | "OsekPatur" | null;
 
   @ApiProperty({
     required: false,
@@ -68,6 +83,50 @@ class BusinessCreateInput {
     nullable: true,
   })
   clients?: ClientCreateNestedManyWithoutBusinessesInput;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  deductionId?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  deductionRate?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: Boolean,
+  })
+  @IsBoolean()
+  @IsOptional()
+  @Field(() => Boolean, {
+    nullable: true,
+  })
+  exemption?: boolean | null;
+
+  @ApiProperty({
+    required: false,
+    type: Number,
+  })
+  @IsInt()
+  @IsOptional()
+  @Field(() => Number, {
+    nullable: true,
+  })
+  taxId?: number | null;
 
   @ApiProperty({
     required: false,

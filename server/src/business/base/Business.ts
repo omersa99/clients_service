@@ -16,10 +16,15 @@ import {
   IsEnum,
   IsOptional,
   IsBoolean,
-  IsString,
   ValidateNested,
   IsDate,
+  IsString,
+  IsInt,
 } from "class-validator";
+import { IsJSONValue } from "@app/custom-validators";
+import { GraphQLJSON } from "graphql-type-json";
+import { JsonValue } from "type-fest";
+import { EnumBusinessBusinessType } from "./EnumBusinessBusinessType";
 import { Client } from "../../client/base/Client";
 import { Type } from "class-transformer";
 
@@ -49,14 +54,24 @@ class Business {
 
   @ApiProperty({
     required: false,
-    type: String,
   })
-  @IsString()
+  @IsJSONValue()
   @IsOptional()
-  @Field(() => String, {
+  @Field(() => GraphQLJSON, {
     nullable: true,
   })
-  address!: string | null;
+  address!: JsonValue;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumBusinessBusinessType,
+  })
+  @IsEnum(EnumBusinessBusinessType)
+  @IsOptional()
+  @Field(() => EnumBusinessBusinessType, {
+    nullable: true,
+  })
+  businessType?: "OsekMurshe" | "LtdCompany" | "OsekPatur" | null;
 
   @ApiProperty({
     required: false,
@@ -76,12 +91,56 @@ class Business {
   createdAt!: Date;
 
   @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  deductionId!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  deductionRate!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: Boolean,
+  })
+  @IsBoolean()
+  @IsOptional()
+  @Field(() => Boolean, {
+    nullable: true,
+  })
+  exemption!: boolean | null;
+
+  @ApiProperty({
     required: true,
     type: String,
   })
   @IsString()
   @Field(() => String)
   id!: string;
+
+  @ApiProperty({
+    required: false,
+    type: Number,
+  })
+  @IsInt()
+  @IsOptional()
+  @Field(() => Number, {
+    nullable: true,
+  })
+  taxId!: number | null;
 
   @ApiProperty({
     required: false,

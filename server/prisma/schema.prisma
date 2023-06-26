@@ -33,10 +33,15 @@ model Client {
 model Business {
   accountingType EnumBusinessAccountingType?
   active         Boolean?
-  address        String?
+  address        Json?
+  businessType   EnumBusinessBusinessType?
   clients        Client[]
   createdAt      DateTime                    @default(now())
+  deductionId    String?
+  deductionRate  String?
+  exemption      Boolean?
   id             String                      @id @default(auto()) @map("_id") @mongo.ObjectId
+  taxId          Int?                        @unique
   title          String?
   updatedAt      DateTime                    @updatedAt
 }
@@ -65,10 +70,22 @@ model Item {
   updatedAt   DateTime  @updatedAt
 }
 
+model Supplier {
+  createdAt DateTime @default(now())
+  id        String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  updatedAt DateTime @updatedAt
+}
+
 enum EnumBusinessAccountingType {
   Unknown
   Cash
   Accumulated
+}
+
+enum EnumBusinessBusinessType {
+  OsekMurshe
+  LtdCompany
+  OsekPatur
 }
 
 enum EnumDocumentDocType {

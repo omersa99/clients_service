@@ -6,6 +6,7 @@ import { ClientModule } from "./client/client.module";
 import { BusinessModule } from "./business/business.module";
 import { DocumentModule } from "./document/document.module";
 import { ItemModule } from "./item/item.module";
+import { SupplierModule } from "./supplier/supplier.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -27,6 +28,7 @@ import { AuthModule } from "./auth/auth.module";
     BusinessModule,
     DocumentModule,
     ItemModule,
+    SupplierModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,
