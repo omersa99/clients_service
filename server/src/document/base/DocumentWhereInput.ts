@@ -14,7 +14,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { FloatNullableFilter } from "../../util/FloatNullableFilter";
 import { Type } from "class-transformer";
 import { IsOptional, IsEnum, ValidateNested } from "class-validator";
+import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { EnumDocumentDiscountType } from "./EnumDocumentDiscountType";
 import { EnumDocumentDocType } from "./EnumDocumentDocType";
 import { StringFilter } from "../../util/StringFilter";
 import { ItemListRelationFilter } from "../../item/base/ItemListRelationFilter";
@@ -47,6 +49,17 @@ class DocumentWhereInput {
 
   @ApiProperty({
     required: false,
+    type: DateTimeNullableFilter,
+  })
+  @Type(() => DateTimeNullableFilter)
+  @IsOptional()
+  @Field(() => DateTimeNullableFilter, {
+    nullable: true,
+  })
+  date?: DateTimeNullableFilter;
+
+  @ApiProperty({
+    required: false,
     type: StringNullableFilter,
   })
   @Type(() => StringNullableFilter)
@@ -58,6 +71,28 @@ class DocumentWhereInput {
 
   @ApiProperty({
     required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  discountAmount?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumDocumentDiscountType,
+  })
+  @IsEnum(EnumDocumentDiscountType)
+  @IsOptional()
+  @Field(() => EnumDocumentDiscountType, {
+    nullable: true,
+  })
+  discountType?: "Sum" | "Percentage";
+
+  @ApiProperty({
+    required: false,
     enum: EnumDocumentDocType,
   })
   @IsEnum(EnumDocumentDocType)
@@ -65,7 +100,30 @@ class DocumentWhereInput {
   @Field(() => EnumDocumentDocType, {
     nullable: true,
   })
-  docType?: "Receipt" | "Invoice";
+  docType?:
+    | "Receipt"
+    | "Invoice"
+    | "PriceOffer"
+    | "Order"
+    | "DeliveryCertificate"
+    | "ReturnCertificate"
+    | "TransactionAccount"
+    | "TaxInvoiceReceipt"
+    | "CreditInvoice"
+    | "PurchaseOrder"
+    | "ReceivingADeposit"
+    | "DepositWithdrawal";
+
+  @ApiProperty({
+    required: false,
+    type: DateTimeNullableFilter,
+  })
+  @Type(() => DateTimeNullableFilter)
+  @IsOptional()
+  @Field(() => DateTimeNullableFilter, {
+    nullable: true,
+  })
+  dueDate?: DateTimeNullableFilter;
 
   @ApiProperty({
     required: false,

@@ -6,9 +6,10 @@ import {
   EditProps,
   SelectInput,
   BooleanInput,
-  TextInput,
   ReferenceArrayInput,
   SelectArrayInput,
+  TextInput,
+  NumberInput,
 } from "react-admin";
 
 import { ClientTitle } from "../client/ClientTitle";
@@ -30,7 +31,19 @@ export const BusinessEdit = (props: EditProps): React.ReactElement => {
           optionValue="value"
         />
         <BooleanInput label="active" source="active" />
-        <TextInput label="address" source="address" />
+        <div />
+        <SelectInput
+          source="businessType"
+          label=" business type"
+          choices={[
+            { label: "Osek Murshe", value: "OsekMurshe" },
+            { label: "LTD company", value: "LtdCompany" },
+            { label: "Osek Patur", value: "OsekPatur" },
+          ]}
+          optionText="label"
+          allowEmpty
+          optionValue="value"
+        />
         <ReferenceArrayInput
           source="clients"
           reference="Client"
@@ -39,6 +52,10 @@ export const BusinessEdit = (props: EditProps): React.ReactElement => {
         >
           <SelectArrayInput optionText={ClientTitle} />
         </ReferenceArrayInput>
+        <TextInput label="deductionId" source="deductionId" />
+        <TextInput label="deductionRate" source="deductionRate" />
+        <BooleanInput label="exemption" source="exemption" />
+        <NumberInput step={1} label="taxId" source="taxId" />
         <TextInput label="title" source="title" />
       </SimpleForm>
     </Edit>

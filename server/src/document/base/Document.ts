@@ -20,6 +20,7 @@ import {
   ValidateNested,
 } from "class-validator";
 import { Type } from "class-transformer";
+import { EnumDocumentDiscountType } from "./EnumDocumentDiscountType";
 import { EnumDocumentDocType } from "./EnumDocumentDocType";
 import { Item } from "../../item/base/Item";
 import { EnumDocumentStatus } from "./EnumDocumentStatus";
@@ -59,6 +60,17 @@ class Document {
 
   @ApiProperty({
     required: false,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  @Field(() => Date, {
+    nullable: true,
+  })
+  date!: Date | null;
+
+  @ApiProperty({
+    required: false,
     type: String,
   })
   @IsString()
@@ -70,6 +82,28 @@ class Document {
 
   @ApiProperty({
     required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  discountAmount!: string | null;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumDocumentDiscountType,
+  })
+  @IsEnum(EnumDocumentDiscountType)
+  @IsOptional()
+  @Field(() => EnumDocumentDiscountType, {
+    nullable: true,
+  })
+  discountType?: "Sum" | "Percentage" | null;
+
+  @ApiProperty({
+    required: false,
     enum: EnumDocumentDocType,
   })
   @IsEnum(EnumDocumentDocType)
@@ -77,7 +111,31 @@ class Document {
   @Field(() => EnumDocumentDocType, {
     nullable: true,
   })
-  docType?: "Receipt" | "Invoice" | null;
+  docType?:
+    | "Receipt"
+    | "Invoice"
+    | "PriceOffer"
+    | "Order"
+    | "DeliveryCertificate"
+    | "ReturnCertificate"
+    | "TransactionAccount"
+    | "TaxInvoiceReceipt"
+    | "CreditInvoice"
+    | "PurchaseOrder"
+    | "ReceivingADeposit"
+    | "DepositWithdrawal"
+    | null;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  @Field(() => Date, {
+    nullable: true,
+  })
+  dueDate!: Date | null;
 
   @ApiProperty({
     required: true,
