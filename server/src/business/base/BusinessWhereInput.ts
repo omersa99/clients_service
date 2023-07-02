@@ -15,9 +15,12 @@ import { EnumBusinessAccountingType } from "./EnumBusinessAccountingType";
 import { IsEnum, IsOptional, ValidateNested } from "class-validator";
 import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
 import { Type } from "class-transformer";
-import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { JsonFilter } from "../../util/JsonFilter";
+import { EnumBusinessBusinessType } from "./EnumBusinessBusinessType";
 import { ClientListRelationFilter } from "../../client/base/ClientListRelationFilter";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
+import { IntNullableFilter } from "../../util/IntNullableFilter";
 
 @InputType()
 class BusinessWhereInput {
@@ -45,14 +48,25 @@ class BusinessWhereInput {
 
   @ApiProperty({
     required: false,
-    type: StringNullableFilter,
+    type: JsonFilter,
   })
-  @Type(() => StringNullableFilter)
+  @Type(() => JsonFilter)
   @IsOptional()
-  @Field(() => StringNullableFilter, {
+  @Field(() => JsonFilter, {
     nullable: true,
   })
-  address?: StringNullableFilter;
+  address?: JsonFilter;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumBusinessBusinessType,
+  })
+  @IsEnum(EnumBusinessBusinessType)
+  @IsOptional()
+  @Field(() => EnumBusinessBusinessType, {
+    nullable: true,
+  })
+  businessType?: "OsekMurshe" | "LtdCompany" | "OsekPatur";
 
   @ApiProperty({
     required: false,
@@ -68,6 +82,39 @@ class BusinessWhereInput {
 
   @ApiProperty({
     required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  deductionId?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  deductionRate?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: BooleanNullableFilter,
+  })
+  @Type(() => BooleanNullableFilter)
+  @IsOptional()
+  @Field(() => BooleanNullableFilter, {
+    nullable: true,
+  })
+  exemption?: BooleanNullableFilter;
+
+  @ApiProperty({
+    required: false,
     type: StringFilter,
   })
   @Type(() => StringFilter)
@@ -76,6 +123,17 @@ class BusinessWhereInput {
     nullable: true,
   })
   id?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: IntNullableFilter,
+  })
+  @Type(() => IntNullableFilter)
+  @IsOptional()
+  @Field(() => IntNullableFilter, {
+    nullable: true,
+  })
+  taxId?: IntNullableFilter;
 
   @ApiProperty({
     required: false,

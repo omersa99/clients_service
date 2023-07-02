@@ -20,13 +20,17 @@ export const DocumentShow = (props: ShowProps): React.ReactElement => {
         <TextField label="amount" source="amount" />
         <TextField label="Amount before VAT" source="amountBeforeVat" />
         <DateField source="createdAt" label="Created At" />
+        <TextField label="date" source="date" />
         <TextField label="description" source="description" />
+        <TextField label="discount amount" source="discountAmount" />
+        <TextField label="discount type" source="discountType" />
         <TextField label="doc type" source="docType" />
+        <TextField label="dueDate" source="dueDate" />
         <TextField label="ID" source="id" />
         <TextField label="status" source="status" />
         <DateField source="updatedAt" label="Updated At" />
         <TextField label="vatType" source="vatType" />
-        <ReferenceManyField reference="Item" target="DocumentId" label="Items">
+        <ReferenceManyField reference="Item" target="documentId" label="Items">
           <Datagrid rowClick="show">
             <DateField source="createdAt" label="Created At" />
             <TextField label="description" source="description" />

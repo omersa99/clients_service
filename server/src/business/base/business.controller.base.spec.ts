@@ -20,35 +20,47 @@ const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
   active: "true",
-  address: "exampleAddress",
   createdAt: new Date(),
+  deductionId: "exampleDeductionId",
+  deductionRate: "exampleDeductionRate",
+  exemption: "true",
   id: "exampleId",
+  taxId: 42,
   title: "exampleTitle",
   updatedAt: new Date(),
 };
 const CREATE_RESULT = {
   active: "true",
-  address: "exampleAddress",
   createdAt: new Date(),
+  deductionId: "exampleDeductionId",
+  deductionRate: "exampleDeductionRate",
+  exemption: "true",
   id: "exampleId",
+  taxId: 42,
   title: "exampleTitle",
   updatedAt: new Date(),
 };
 const FIND_MANY_RESULT = [
   {
     active: "true",
-    address: "exampleAddress",
     createdAt: new Date(),
+    deductionId: "exampleDeductionId",
+    deductionRate: "exampleDeductionRate",
+    exemption: "true",
     id: "exampleId",
+    taxId: 42,
     title: "exampleTitle",
     updatedAt: new Date(),
   },
 ];
 const FIND_ONE_RESULT = {
   active: "true",
-  address: "exampleAddress",
   createdAt: new Date(),
+  deductionId: "exampleDeductionId",
+  deductionRate: "exampleDeductionRate",
+  exemption: "true",
   id: "exampleId",
+  taxId: 42,
   title: "exampleTitle",
   updatedAt: new Date(),
 };

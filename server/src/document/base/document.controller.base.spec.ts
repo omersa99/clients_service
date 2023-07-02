@@ -22,7 +22,10 @@ const CREATE_INPUT = {
   amount: 42.42,
   amountBeforeVat: 42.42,
   createdAt: new Date(),
+  date: new Date(),
   description: "exampleDescription",
+  discountAmount: "exampleDiscountAmount",
+  dueDate: new Date(),
   id: "exampleId",
   updatedAt: new Date(),
 };
@@ -30,7 +33,10 @@ const CREATE_RESULT = {
   amount: 42.42,
   amountBeforeVat: 42.42,
   createdAt: new Date(),
+  date: new Date(),
   description: "exampleDescription",
+  discountAmount: "exampleDiscountAmount",
+  dueDate: new Date(),
   id: "exampleId",
   updatedAt: new Date(),
 };
@@ -39,7 +45,10 @@ const FIND_MANY_RESULT = [
     amount: 42.42,
     amountBeforeVat: 42.42,
     createdAt: new Date(),
+    date: new Date(),
     description: "exampleDescription",
+    discountAmount: "exampleDiscountAmount",
+    dueDate: new Date(),
     id: "exampleId",
     updatedAt: new Date(),
   },
@@ -48,7 +57,10 @@ const FIND_ONE_RESULT = {
   amount: 42.42,
   amountBeforeVat: 42.42,
   createdAt: new Date(),
+  date: new Date(),
   description: "exampleDescription",
+  discountAmount: "exampleDiscountAmount",
+  dueDate: new Date(),
   id: "exampleId",
   updatedAt: new Date(),
 };
@@ -136,6 +148,8 @@ describe("Document", () => {
       .expect({
         ...CREATE_RESULT,
         createdAt: CREATE_RESULT.createdAt.toISOString(),
+        date: CREATE_RESULT.date.toISOString(),
+        dueDate: CREATE_RESULT.dueDate.toISOString(),
         updatedAt: CREATE_RESULT.updatedAt.toISOString(),
       });
   });
@@ -148,6 +162,8 @@ describe("Document", () => {
         {
           ...FIND_MANY_RESULT[0],
           createdAt: FIND_MANY_RESULT[0].createdAt.toISOString(),
+          date: FIND_MANY_RESULT[0].date.toISOString(),
+          dueDate: FIND_MANY_RESULT[0].dueDate.toISOString(),
           updatedAt: FIND_MANY_RESULT[0].updatedAt.toISOString(),
         },
       ]);
@@ -171,6 +187,8 @@ describe("Document", () => {
       .expect({
         ...FIND_ONE_RESULT,
         createdAt: FIND_ONE_RESULT.createdAt.toISOString(),
+        date: FIND_ONE_RESULT.date.toISOString(),
+        dueDate: FIND_ONE_RESULT.dueDate.toISOString(),
         updatedAt: FIND_ONE_RESULT.updatedAt.toISOString(),
       });
   });
@@ -184,6 +202,8 @@ describe("Document", () => {
       .expect({
         ...CREATE_RESULT,
         createdAt: CREATE_RESULT.createdAt.toISOString(),
+        date: CREATE_RESULT.date.toISOString(),
+        dueDate: CREATE_RESULT.dueDate.toISOString(),
         updatedAt: CREATE_RESULT.updatedAt.toISOString(),
       })
       .then(function () {

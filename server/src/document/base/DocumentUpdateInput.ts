@@ -14,13 +14,15 @@ import { ApiProperty } from "@nestjs/swagger";
 import {
   IsNumber,
   IsOptional,
+  IsDate,
   IsString,
   IsEnum,
   ValidateNested,
 } from "class-validator";
+import { Type } from "class-transformer";
+import { EnumDocumentDiscountType } from "./EnumDocumentDiscountType";
 import { EnumDocumentDocType } from "./EnumDocumentDocType";
 import { ItemUpdateManyWithoutDocumentsInput } from "./ItemUpdateManyWithoutDocumentsInput";
-import { Type } from "class-transformer";
 import { EnumDocumentStatus } from "./EnumDocumentStatus";
 import { EnumDocumentVatType } from "./EnumDocumentVatType";
 
@@ -50,6 +52,17 @@ class DocumentUpdateInput {
 
   @ApiProperty({
     required: false,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  @Field(() => Date, {
+    nullable: true,
+  })
+  date?: Date | null;
+
+  @ApiProperty({
+    required: false,
     type: String,
   })
   @IsString()
@@ -61,6 +74,28 @@ class DocumentUpdateInput {
 
   @ApiProperty({
     required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  discountAmount?: string | null;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumDocumentDiscountType,
+  })
+  @IsEnum(EnumDocumentDiscountType)
+  @IsOptional()
+  @Field(() => EnumDocumentDiscountType, {
+    nullable: true,
+  })
+  discountType?: "Sum" | "Percentage" | null;
+
+  @ApiProperty({
+    required: false,
     enum: EnumDocumentDocType,
   })
   @IsEnum(EnumDocumentDocType)
@@ -68,7 +103,31 @@ class DocumentUpdateInput {
   @Field(() => EnumDocumentDocType, {
     nullable: true,
   })
-  docType?: "Receipt" | "Invoice" | null;
+  docType?:
+    | "Receipt"
+    | "Invoice"
+    | "PriceOffer"
+    | "Order"
+    | "DeliveryCertificate"
+    | "ReturnCertificate"
+    | "TransactionAccount"
+    | "TaxInvoiceReceipt"
+    | "CreditInvoice"
+    | "PurchaseOrder"
+    | "ReceivingADeposit"
+    | "DepositWithdrawal"
+    | null;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  @Field(() => Date, {
+    nullable: true,
+  })
+  dueDate?: Date | null;
 
   @ApiProperty({
     required: false,
