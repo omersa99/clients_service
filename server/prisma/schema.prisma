@@ -1,0 +1,130 @@
+datasource mongo {
+  provider = "mongodb"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  createdAt DateTime @default(now())
+  firstName String?
+  id        String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  lastName  String?
+  password  String
+  roles     Json
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+}
+
+model Client {
+  active     Boolean?
+  balance    Float
+  bn         Int       @unique
+  business   Business? @relation(fields: [businessId], references: [id])
+  businessId String?
+  createdAt  DateTime  @default(now())
+  fullName   String
+  id         String    @id @default(auto()) @map("_id") @mongo.ObjectId
+  updatedAt  DateTime  @updatedAt
+}
+
+model Business {
+  accountingType EnumBusinessAccountingType?
+  active         Boolean?
+  address        Json?
+  businessType   EnumBusinessBusinessType?
+  clients        Client[]
+  createdAt      DateTime                    @default(now())
+  deductionId    String?
+  deductionRate  String?
+  exemption      Boolean?
+  id             String                      @id @default(auto()) @map("_id") @mongo.ObjectId
+  taxId          Int?                        @unique
+  title          String?
+  updatedAt      DateTime                    @updatedAt
+}
+
+model Document {
+  amount          Float?
+  amountBeforeVat Float?
+  createdAt       DateTime                  @default(now())
+  date            DateTime?
+  description     String?
+  discountAmount  String?
+  discountType    EnumDocumentDiscountType?
+  docType         EnumDocumentDocType?
+  dueDate         DateTime?
+  id              String                    @id @default(auto()) @map("_id") @mongo.ObjectId
+  items           Item[]
+  status          EnumDocumentStatus?
+  updatedAt       DateTime                  @updatedAt
+  vatType         EnumDocumentVatType?
+}
+
+model Item {
+  createdAt   DateTime  @default(now())
+  description String?
+  document    Document? @relation(fields: [documentId], references: [id])
+  documentId  String?
+  id          String    @id @default(auto()) @map("_id") @mongo.ObjectId
+  name        String?
+  price       Float?
+  updatedAt   DateTime  @updatedAt
+}
+
+model Supplier {
+  createdAt DateTime @default(now())
+  id        String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  updatedAt DateTime @updatedAt
+}
+
+model Transaction {
+  createdAt DateTime @default(now())
+  id        String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  updatedAt DateTime @updatedAt
+}
+
+enum EnumBusinessAccountingType {
+  Unknown
+  Cash
+  Accumulated
+}
+
+enum EnumBusinessBusinessType {
+  OsekMurshe
+  LtdCompany
+  OsekPatur
+}
+
+enum EnumDocumentDiscountType {
+  Sum
+  Percentage
+}
+
+enum EnumDocumentDocType {
+  Receipt
+  Invoice
+  PriceOffer
+  Order
+  DeliveryCertificate
+  ReturnCertificate
+  TransactionAccount
+  TaxInvoiceReceipt
+  CreditInvoice
+  PurchaseOrder
+  ReceivingADeposit
+  DepositWithdrawal
+}
+
+enum EnumDocumentStatus {
+  Open
+  Closed
+}
+
+enum EnumDocumentVatType {
+  Default
+  Included
+  Exempt
+}
